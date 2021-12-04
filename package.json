@@ -1,0 +1,19 @@
+{
+  "name": "promise-stateful-rest",
+  "version": "1.0.0",
+  "description": "This is a wrapper to make network objects & collections more friendly to state-tracking frameworks like Vue, React etc",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jj101k/promise-stateful-rest.git"
+  },
+  "author": "Jim Driscoll",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/jj101k/promise-stateful-rest/issues"
+  },
+  "homepage": "https://github.com/jj101k/promise-stateful-rest#readme"
+}
