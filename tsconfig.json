@@ -12,6 +12,11 @@
         "lib": [
             "es2020"
         ],
-        "outDir": "dist/"
-    }
+        "outDir": "dist/",
+        "baseUrl": ".",
+        "paths": {
+            "promise-stateful-rest": ["."]
+        }
+    },
+    "include": ["src/", "index.ts"]
 }
