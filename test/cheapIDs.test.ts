@@ -12,7 +12,7 @@ interface BatchBookContent {
 /**
  * This is for filling objects which already have IDs.
  */
-class BatchBookContentHandler extends Collected.DelayBatch<BatchBookContent> {
+class BatchBookContentHandler extends Collected.Batch<BatchBookContent> {
     public static loadBuffer: LoadBuffer<Type.id, BatchBookContent> | null = null
 
     protected readonly delayMs = 10
