@@ -29,7 +29,7 @@ class Book extends Collected.Item.PartLoadable {
 /**
  * This is for cases where you cannot know IDs in advance.
  */
-class BatchBookCollection extends Collected.Iterable.Batch<Book> {
+class BatchBookCollection extends Collected.All.Batch<Book> {
     /**
      *
      */

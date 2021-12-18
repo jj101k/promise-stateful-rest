@@ -76,7 +76,7 @@ class BatchBook {
     }
 }
 
-class BookCollection extends Collected.Iterable.Preloaded<BatchBook> {
+class BookCollection extends Collected.All.Preloaded<BatchBook> {
     protected newItem(id: Type.id) {
         return new BatchBook(id)
     }
