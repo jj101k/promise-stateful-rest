@@ -7,6 +7,8 @@ import { Retained } from "./Retained"
  * requests together.
  *
  * This will wait for `delayMs` milliseconds for other items to fetch.
+ *
+ * This requires that all items are identified individually by the caller.
  */
 
 export abstract class Batch<T extends Identifiable> extends Retained<T> {

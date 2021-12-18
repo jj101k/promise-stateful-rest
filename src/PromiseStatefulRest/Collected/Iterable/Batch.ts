@@ -7,6 +7,8 @@ import { OnDemand } from "./OnDemand"
  * where it's expensive to fetch, AND you want to batch requests together.
  *
  * This will wait for `delayMs` milliseconds for other items to fetch.
+ *
+ * This differs from the other Batch in that you can ask for all items.
  */
 
 export abstract class Batch<T extends Identifiable> extends OnDemand<T> {

@@ -25,7 +25,9 @@ type collectionLoadOptions = any
 
 /**
  * This is for collections where you do not have the ID list in advance, eg.
- * where it's expensive to fetch
+ * where it's expensive to fetch.
+ *
+ * This differs from Retained in that you can ask for all items.
  */
 
 export abstract class OnDemand<T extends Identifiable> extends Retained<T> {

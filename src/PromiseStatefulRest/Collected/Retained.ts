@@ -4,7 +4,8 @@ import { Collected, Identifiable, id, State } from "../Type"
  * This is for collections where you do not have the ID list in advance, eg.
  * where it's expensive to fetch.
  *
- * Loaded objects are retained in the collection.
+ * Loaded objects are retained in the collection, and must be explicitly
+ * requested.
  */
 
 export abstract class Retained<T extends Identifiable> implements Collected<T> {
