@@ -1,15 +1,15 @@
-import { Identifiable, id } from "../../Type"
-import { LoadBuffer, LoadBufferPromise } from "../../LoadBuffer"
-import { OnDemand } from "./OnDemand"
+import { Identifiable, id } from "../Type"
+import { LoadBuffer, LoadBufferPromise } from "../LoadBuffer"
+import { Retained } from "./Retained"
 
 /**
- * This is for collections where you do not have the ID list in advance, eg.
- * where it's expensive to fetch, AND you want to batch requests together.
+ * This is for ad-hoc groups of identical items, where you want to batch
+ * requests together.
  *
  * This will wait for `delayMs` milliseconds for other items to fetch.
  */
 
-export abstract class DelayBatch<T extends Identifiable> extends OnDemand<T> {
+export abstract class Batch<T extends Identifiable> extends Retained<T> {
     /**
      * The time to wait
      */
@@ -49,4 +49,6 @@ export abstract class DelayBatch<T extends Identifiable> extends OnDemand<T> {
         }
         return item
     }
+
+
 }
