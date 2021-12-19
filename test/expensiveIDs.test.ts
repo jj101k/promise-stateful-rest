@@ -1,7 +1,7 @@
 import intern from "intern"
 import assert from "assert"
-import { Book } from "./Book"
-import { BatchBookCollection } from "./BatchBookCollection"
+import { Book } from "./lib/Book"
+import { BatchBookCollection } from "./lib/BatchBookCollection"
 const { registerSuite } = intern.getPlugin("interface.object")
 
 registerSuite("Example 2 tests", {
