@@ -95,5 +95,15 @@ registerSuite("Example 2 tests", {
         for(const item of itemsRetained) {
             assert(item.pages?.[0]?.match(/Lorem ipsum/), "pages is available after 50ms")
         }
-    }
+    },
+    "Can load a book": async () => {
+        const collection = new BatchBookCollection("/book")
+        const itemInitial = await collection.get(1)
+        assert(itemInitial === undefined, "Item is initially unset")
+        await new Promise(resolve => setTimeout(resolve, 50))
+        const item = await collection.get(1)
+        assert(item !== undefined, "Item is eventually set")
+        assert(item.id == 1, "ID matches")
+        assert(item.name == "Test", "name is immediately available")
+    },
 })

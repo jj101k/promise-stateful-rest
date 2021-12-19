@@ -142,6 +142,15 @@ registerSuite("Example 1 tests", {
             for(const item of items) {
                 assert(item.name == "Some Name", "After 40ms, name matches")
             }
-        }
+        },
+        "Can load a book": async () => {
+            const collection = new BookCollection([1, 2, 3])
+            const item = await collection.get(1)
+            assert(item !== undefined, "Item is initially set")
+            assert(item.id == 1, "ID matches")
+            assert(item.name === undefined, "Name is ininitally undefined for " + item.id)
+            await new Promise(resolve => setTimeout(resolve, 50))
+            assert(item.name == "Some Name", "name is eventually available")
+        },
     }
 })
