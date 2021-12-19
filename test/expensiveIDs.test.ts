@@ -1,5 +1,7 @@
+import intern from "intern"
 import { Collected, LoadBuffer, Type } from ".."
 import assert from "assert"
+const { registerSuite } = intern.getPlugin("interface.object")
 
 // Scenario 2: where you cannot know IDs in advance, you generally fetch whole
 // objects at once
@@ -65,9 +67,8 @@ class BatchBookCollection extends Collected.All.Batch<Book> {
 }
 
 
-describe("Example 2 tests", function() {
-    this.slow(300)
-    it("Can load a book collection (iterate)", async () => {
+registerSuite("Example 2 tests", {
+    "Can load a book collection (iterate)": async () => {
         const collection = new BatchBookCollection("/book")
         const items = collection.getAllIterable()
         const itemsRetained: Book[] = []
@@ -81,8 +82,8 @@ describe("Example 2 tests", function() {
         for(const item of itemsRetained) {
             assert(item.pages?.[0]?.match(/Lorem ipsum/), "pages is available after 50ms")
         }
-    })
-    it("Can load a book collection (at-once)", async () => {
+    },
+    "Can load a book collection (at-once)": async () => {
         const collection = new BatchBookCollection("/book")
         const itemsRetained = await collection.getAll()
         assert(itemsRetained.length == 3)
@@ -94,5 +95,5 @@ describe("Example 2 tests", function() {
         for(const item of itemsRetained) {
             assert(item.pages?.[0]?.match(/Lorem ipsum/), "pages is available after 50ms")
         }
-    })
+    }
 })
