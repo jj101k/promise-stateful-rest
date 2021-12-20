@@ -56,13 +56,9 @@ export abstract class Loadable implements Identifiable {
             return state.value
         } else {
             if (!state.promise) {
-                state.promise = this.states[stateKey](this.id).then(
-                    v => state.value = v,
-                    e => {
-                        console.error(e)
-                        throw e
-                    }
-                )
+                state.promise = (
+                    async () => state.value = await this.states[stateKey](this.id)
+                )()
             }
             return undefined
         }
