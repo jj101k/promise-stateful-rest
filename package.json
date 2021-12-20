@@ -1,6 +1,6 @@
 {
   "name": "promise-stateful-rest",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This is a wrapper to make network objects & collections more friendly to state-tracking frameworks like Vue, React etc",
   "main": "dist/index.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "prepublish": "npm run build",
     "test": "intern"
   },
+  "files": ["dist/**/*.*"],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jj101k/promise-stateful-rest.git"
