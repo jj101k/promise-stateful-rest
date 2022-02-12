@@ -74,11 +74,6 @@ class BatchBook {
     }
 }
 
-/**
- * @extends {Collected.All.Preloaded<BatchBook>}
- */
-class BookCollection extends Collected.All.Preloaded {
-    newItem(id) {
-        return new BatchBook(id)
-    }
-}
+const myCollection = new Map(
+    [1, 2, 3].map(id => [id, new BatchBook(id)])
+)
