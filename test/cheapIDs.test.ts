@@ -8,7 +8,7 @@ const { registerSuite } = intern.getPlugin("interface.object")
 
 registerSuite("Example 1 tests", {
     beforeEach: () => {
-        BatchBook.resetContentHandler()
+        BatchBook.resetContentHandlerCache()
     },
     tests: {
         "Can load a book collection without initial items": async () => {

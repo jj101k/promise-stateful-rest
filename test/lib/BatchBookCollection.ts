@@ -37,4 +37,8 @@ export class BatchBookCollection extends Collected.All.Batch<Book> {
             cursor: undefined,
         }
     }
+
+    abort() {
+        return false
+    }
 }

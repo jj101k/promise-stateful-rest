@@ -3,14 +3,14 @@ import { Collected, LoadBuffer, Type } from "promise-stateful-rest"
 // Scenario 1: you can quite easily get the list of IDs in a collection
 
 interface BatchBookContent {
-    id: Type.id,
+    id: Type.id
     name: string
 }
 
 /**
  * This is for filling objects which already have IDs.
  */
-class BatchBookContentHandler extends Collected.Batch<BatchBookContent> {
+class BatchBookContentHandler extends Collected.BatchUncached<BatchBookContent> {
     public static loadBuffer: LoadBuffer<Type.id, BatchBookContent> | null = null
 
     protected readonly delayMs = 100
@@ -23,9 +23,10 @@ class BatchBookContentHandler extends Collected.Batch<BatchBookContent> {
         // Load & check goes here.
         // Simulates a load delay
         await new Promise(resolve => setTimeout(resolve, 10 + ids.length))
+
         // Simulated return value
         return new Map(
-            ids.map(id => [id, {id, name: "Some Name"}])
+            ids.map(id => [id, { id, name: "Some Name" }])
         )
     }
 
@@ -45,12 +46,16 @@ class BatchBook {
     /**
      *
      */
-    private static contentHandler = new BatchBookContentHandler()
+    private static readonly contentHandler = new BatchBookContentHandler()
+    /**
+     *
+     */
+    private static contentHandlerCache = new Collected.Retain(this.contentHandler)
 
     /**
      *
      */
-    private readonly contentHandler = BatchBook.contentHandler
+    private readonly contentHandlerCache = BatchBook.contentHandlerCache
 
     /**
      *
@@ -63,7 +68,7 @@ class BatchBook {
      *
      */
     get name(): string | undefined {
-        return this.contentHandler.get(this.id)?.name
+        return this.contentHandlerCache.get(this.id)?.name
     }
 }
 

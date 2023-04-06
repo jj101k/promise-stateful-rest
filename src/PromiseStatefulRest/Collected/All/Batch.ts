@@ -33,7 +33,7 @@ export abstract class Batch<T extends Identifiable> extends OnDemand<T> {
      */
     protected abstract loadItems(ids: id[]): LoadBufferPromise<id, T>
 
-    protected async loadItem(id: id): Promise<T> {
+    async include(id: id): Promise<T> {
         if (!this.loadBufferStorage.loadBuffer) {
             this.loadBufferStorage.loadBuffer = new LoadBuffer<id, T>(
                 async (toLoad: id[]) => {

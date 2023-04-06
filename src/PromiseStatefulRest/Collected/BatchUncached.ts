@@ -1,6 +1,6 @@
+import { Batchable } from "batch-tools/dist/src/Batchable"
 import { LoadBuffer, LoadBufferPromise } from "../LoadBuffer"
 import { Identifiable, id } from "../Type"
-import { Retained } from "./Retained"
 
 /**
  * This is for ad-hoc groups of identically structured items, where you want to
@@ -10,7 +10,7 @@ import { Retained } from "./Retained"
  *
  * This requires that all items are identified individually by the caller.
  */
-export abstract class Batch<T extends Identifiable> extends Retained<T> {
+export abstract class BatchUncached<T extends Identifiable> implements Batchable<id, T> {
     /**
      * The time to wait
      */
@@ -31,6 +31,13 @@ export abstract class Batch<T extends Identifiable> extends Retained<T> {
      * @param ids
      */
     protected abstract loadItems(ids: id[]): LoadBufferPromise<id, T>
+
+    /**
+     *
+     * @param identity This is existing state, often a URL path
+     */
+    constructor(protected identity: any) {
+    }
 
     async include(id: id): Promise<T> {
         if (!this.loadBufferStorage.loadBuffer) {

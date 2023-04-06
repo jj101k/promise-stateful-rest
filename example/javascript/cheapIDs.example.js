@@ -11,7 +11,7 @@ import { Collected, LoadBuffer, Type } from "promise-stateful-rest"
 /**
  * This is for filling objects which already have IDs.
  *
- * @extends {Collected.Batch<BatchBookContent>}
+ * @extends {Collected.BatchUncached<BatchBookContent>}
  */
 class BatchBookContentHandler extends Collected.Batch {
     /**
@@ -29,9 +29,10 @@ class BatchBookContentHandler extends Collected.Batch {
         // Load & check goes here.
         // Simulates a load delay
         await new Promise(resolve => setTimeout(resolve, 10 + ids.length))
+
         // Simulated return value
         return new Map(
-            ids.map(id => [id, {id, name: "Some Name"}])
+            ids.map(id => [id, { id, name: "Some Name" }])
         )
     }
 
@@ -56,7 +57,12 @@ class BatchBook {
     /**
      *
      */
-    contentHandler = BatchBook.contentHandler
+    static contentHandlerCache = new Collected.Retain(this.contentHandler)
+
+    /**
+     *
+     */
+    contentHandlerCache = BatchBook.contentHandlerCache
 
     /**
      *
@@ -70,7 +76,7 @@ class BatchBook {
      * @type {string | undefined}
      */
     get name() {
-        return this.contentHandler.get(this.id)?.name
+        return this.contentHandlerCache.get(this.id)?.name
     }
 }
 

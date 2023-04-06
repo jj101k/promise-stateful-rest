@@ -8,7 +8,7 @@ export interface BatchBookContent {
 /**
  * This is for filling objects which already have IDs.
  */
-export class BatchBookContentHandler extends Collected.Batch<BatchBookContent> {
+export class BatchBookContentHandler extends Collected.BatchUncached<BatchBookContent> {
     public static loadBuffer: LoadBuffer<Type.id, BatchBookContent> | null = null;
 
     protected readonly delayMs = 10;
@@ -41,22 +41,23 @@ export class BatchBookContentHandler extends Collected.Batch<BatchBookContent> {
  * in one go.
  */
 export class BatchBook {
+    private static readonly contentHandler = new BatchBookContentHandler()
     /**
      *
      */
-    private static contentHandler = new BatchBookContentHandler();
+    private static contentHandlerCache = new Collected.Retain(this.contentHandler)
 
     /**
      * Testing: this lets you reset the global state
      */
-    public static resetContentHandler() {
-        this.contentHandler = new BatchBookContentHandler()
+    public static resetContentHandlerCache() {
+        this.contentHandlerCache = new Collected.Retain(this.contentHandler)
     }
 
     /**
      *
      */
-    private readonly contentHandler = BatchBook.contentHandler;
+    private readonly contentHandlerCache = BatchBook.contentHandlerCache
 
     /**
      *
@@ -69,6 +70,6 @@ export class BatchBook {
      *
      */
     get name(): string | undefined {
-        return this.contentHandler.get(this.id)?.name
+        return this.contentHandlerCache.get(this.id)?.name
     }
 }

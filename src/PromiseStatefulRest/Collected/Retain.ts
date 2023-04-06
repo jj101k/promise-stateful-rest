@@ -1,15 +1,10 @@
 import { Batchable } from "batch-tools/dist/src/Batchable"
-import { Collected, Identifiable, id, State } from "../Type"
+import { Collected, Identifiable, State, id } from "../Type"
 
 /**
- * This is for collections where you do not have the ID list in advance, eg.
- * where it's expensive to fetch.
- *
- * Loaded objects are retained in the collection, and must be explicitly
- * requested.
+ * A cache wrapper around a batch object
  */
-
-export abstract class Retained<T extends Identifiable> implements Collected<T>, Batchable<id, T> {
+export class Retain<T extends Identifiable> implements Collected<T>, Batchable<id, T> {
     /**
      * The backing storage for items which have been seen
      */
@@ -17,12 +12,14 @@ export abstract class Retained<T extends Identifiable> implements Collected<T>, 
 
     /**
      *
-     * @param identity This is existing state, often a URL path
+     * @param handler
      */
-    constructor(protected identity: any) {
+    constructor(private readonly handler: Batchable<id, T>) {
     }
 
-    abstract abort(): boolean
+    abort() {
+        return this.handler.abort()
+    }
 
     /**
      * The item getter. This will immediately return either the named item or
@@ -48,5 +45,11 @@ export abstract class Retained<T extends Identifiable> implements Collected<T>, 
         return item.value
     }
 
-    abstract include(id: id): Promise<T>
+    /**
+     * This just passes through to the underlying handler, so can be used if you
+     * emphatically do not want caching.
+     */
+    include(id: id): Promise<T> {
+        return this.handler.include(id)
+    }
 }
