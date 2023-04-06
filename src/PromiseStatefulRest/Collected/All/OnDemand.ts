@@ -1,5 +1,5 @@
-import { Identifiable } from "../../Type"
-import { Retained } from "../Retained"
+import { Batchable } from "batch-tools/dist/src/Batchable"
+import { Collected, Identifiable, State, id } from "../../Type"
 
 /**
  * This is whatever you would use as the cursor when performing a collection
@@ -26,11 +26,14 @@ type collectionLoadOptions = any
 /**
  * This is for collections where you do not have the ID list in advance, eg.
  * where it's expensive to fetch.
- *
- * This differs from Retained in that you can ask for all items.
  */
 
-export abstract class OnDemand<T extends Identifiable> extends Retained<T> {
+export abstract class OnDemand<T extends Identifiable> implements Collected<T>, Batchable<id, T> {
+    /**
+     * The backing storage for items which have been seen
+     */
+    protected items = new Map<string | number, State<T>>()
+
     /**
      * A many-item loader. This would normally be called recursively until done
      *
@@ -41,6 +44,40 @@ export abstract class OnDemand<T extends Identifiable> extends Retained<T> {
     protected abstract loadBatch(filter: collectionLoadFilter | undefined,
         options?: collectionLoadOptions | undefined,
         cursor?: collectionLoadCursor): Promise<{results: T[], cursor: any}>
+
+
+    /**
+     *
+     * @param identity This is existing state, often a URL path
+     */
+    constructor(protected identity: any) {
+    }
+
+    abstract abort(): boolean
+
+    /**
+     * The item getter. This will immediately return either the named item or
+     * undefined, and if it hasn't been loaded yet the load will be started.
+     *
+     * @param id
+     * @returns
+     */
+    public get(id: id) {
+        const item = this.items.get(id)
+        if (item === undefined) {
+            const newItem: State<T> = {}
+            this.items.set(id, newItem)
+            newItem.promise = this.include(id).then(
+                v => newItem.value = v,
+                e => {
+                    console.error(e)
+                    throw e
+                }
+            )
+            return undefined
+        }
+        return item.value
+    }
 
     /**
      * The full collection getter. This will fetch (part of) the collection, and
@@ -83,4 +120,6 @@ export abstract class OnDemand<T extends Identifiable> extends Retained<T> {
             cursor = batchResults.cursor
         } while (cursor)
     }
+
+    abstract include(id: id): Promise<T>
 }
