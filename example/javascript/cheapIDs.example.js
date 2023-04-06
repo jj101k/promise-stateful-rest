@@ -13,7 +13,7 @@ import { Collected, LoadBuffer, Type } from "promise-stateful-rest"
  *
  * @extends {Collected.BatchUncached<BatchBookContent>}
  */
-class BatchBookContentHandler extends Collected.Batch {
+class BatchBookContentHandler extends Collected.BatchUncached {
     /**
      * @type {LoadBuffer<Type.id, BatchBookContent> | null}
      */
