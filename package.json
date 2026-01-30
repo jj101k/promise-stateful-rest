@@ -1,6 +1,6 @@
 {
   "name": "promise-stateful-rest",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "This is a wrapper to make network objects & collections more friendly to state-tracking frameworks like Vue, React etc",
   "main": "dist/index.js",
   "scripts": {
