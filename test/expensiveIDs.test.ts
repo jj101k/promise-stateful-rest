@@ -1,13 +1,11 @@
-import intern from "intern"
 import assert from "assert"
 import { Book } from "./lib/Book"
 import { BatchBookCollection } from "./lib/BatchBookCollection"
-const { registerSuite } = intern.getPlugin("interface.object")
 
 const delayMs = 50
 
-registerSuite("Example 2 tests", {
-    "Can load a book collection (iterate)": async () => {
+describe("Example 2 tests", () => {
+    it("Can load a book collection (iterate)", async () => {
         const collection = new BatchBookCollection("/book")
         const items = collection.getAllIterable()
         const itemsRetained: Book[] = []
@@ -21,8 +19,8 @@ registerSuite("Example 2 tests", {
         for(const item of itemsRetained) {
             assert(item.pages?.[0]?.match(/Lorem ipsum/), "pages is eventually available")
         }
-    },
-    "Can load a book collection (at-once)": async () => {
+    })
+    it("Can load a book collection (at-once)", async () => {
         const collection = new BatchBookCollection("/book")
         const itemsRetained = await collection.getAll()
         assert(itemsRetained.length == 3)
@@ -34,8 +32,8 @@ registerSuite("Example 2 tests", {
         for(const item of itemsRetained) {
             assert(item.pages?.[0]?.match(/Lorem ipsum/), "pages is eventually available")
         }
-    },
-    "Can load a book": async () => {
+    })
+    it("Can load a book", async () => {
         const collection = new BatchBookCollection("/book")
         const itemInitial = await collection.get(1)
         assert(itemInitial === undefined, "Item is initially unset")
@@ -44,5 +42,5 @@ registerSuite("Example 2 tests", {
         assert(item !== undefined, "Item is eventually set")
         assert(item.id == 1, "ID matches")
         assert(item.name == "Test", "name is immediately available")
-    },
+    })
 })

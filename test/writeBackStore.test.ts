@@ -1,7 +1,5 @@
-import intern from "intern"
 import { WriteBackStore } from ".."
 import assert from "assert"
-const { registerSuite } = intern.getPlugin("interface.object")
 
 // Scenario 3: you have some properties in an existing object which are to be
 // stored.
@@ -69,12 +67,12 @@ class Calculator {
     }
 }
 
-registerSuite("Example 3 tests", {
-    "Can load the wrapper property": async () => {
+describe("Example 3 tests", () => {
+    it("Can load the wrapper property", async () => {
         const calc = new Calculator(2)
         calc.add(1)
         assert(calc.result === null, "Compound property is initially null")
         await new Promise(resolve => setTimeout(resolve, 150))
         assert(calc.result === "3kg", "Compound property is eventually set")
-    }
+    })
 })

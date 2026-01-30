@@ -6,7 +6,8 @@
   "scripts": {
     "build": "tsc",
     "prepublishOnly": "npm run build",
-    "test": "intern"
+    "test": "mocha -r ts-node/register test/**/*.test.ts",
+    "cover": "nyc mocha -r ts-node/register test/**/*.test.ts"
   },
   "files": [
     "dist/**/*.*"
@@ -22,8 +23,9 @@
   },
   "homepage": "https://github.com/jj101k/promise-stateful-rest#readme",
   "devDependencies": {
+    "@types/mocha": "^10.0.10",
     "@types/node": "^16.11.11",
-    "intern": "^4.10.1",
+    "mocha": "^11.7.5",
     "ts-node": "^10.3.0"
   },
   "dependencies": {
